@@ -1,0 +1,38 @@
+@echo off
+
+:: ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩƒºÔøΩÔøΩÔøΩÔøΩÔø?
+set output_name=tgsaver
+set CGO_ENABLED=0
+
+:: ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ
+set goos=linux windows
+set goarch=amd64 arm arm64
+
+setlocal enabledelayedexpansion
+
+:: ÔøΩÔøΩ ºÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔø?
+for %%o in (%goos%) do (
+      for %%a in (%goarch%) do (
+            set output_file=bin\%output_name%_%%o_%%a
+            set GOOS=%%o
+            set GOARCH=%%a
+            if %%a==arm (
+                  set GOARM=7
+                  set output_file=!output_file!v7
+            )
+            if %%o==windows (
+                  if %%a==amd64 (
+                        set output_file=!output_file!.exe
+                        echo ’˝‘⁄±‡“Î !output_file!...
+                        go build -o !output_file! > nul
+                  )
+            ) else (
+                  echo ’˝‘⁄±‡“Î !output_file!...
+                  go build -o !output_file! > nul
+            ) 
+      )
+)
+endlocal
+
+echo Ωª≤Ê±‡“ÎÕÍ≥…
+exit /b 0
